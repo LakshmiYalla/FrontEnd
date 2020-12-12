@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to add & remove table rows</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+            font-family: "Roboto", sans-serif;
+           }
+      h1 {
+        text-align: center;
+        }
+
+
+      table,
+      form {
+        width: 100%;
+        margin: 20px auto;
+      }
+      
+      label,
+      input {
+        display: block;
+        margin: 10px 0;
+        font-size: 20px;
+      }
+      button {
+        display: block;
+      }
+
+
+
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  width:30%;
+  height:100%;
+  bottom: 0;
+  left: 35%;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 100%;
+  padding: 5px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:5px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+
+.form-container .reset {background-color: #f44336;}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+  }
+  
+.tableFixHead          { overflow-y: auto; height: 500px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 80%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+
+/* Borders (if you need them) */
+.tableFixHead,
+.tableFixHead td {
+  box-shadow: inset 1px -1px #000;
+}
+.tableFixHead th {
+  box-shadow: inset 1px 1px #000, 0 1px #000;
+}
+
+    </style>
+  </head>
+  <body>
+    <h1>Employee Details</h1>
+
+    <div class="form-popup" id="myForm" onSubmit="hidepopup()">
+	<form action="/action_page.php" class="form-container">
+	<center><h3>New Employee Details</h3></center>
+      <div class="input-row">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" required />
+      </div>
+      <div class="input-row">
+        <label for="employee_id">Employee ID</label>
+        <input type="text" name="employee_id" id="employee_id" required/>
+      </div>
+      
+      <div class="input-row">
+        <label for="department">Department</label>
+        <select id="department" required>
+          <option value="technical">Technical</option>
+          <option value="account">Accounts</option>
+          <option value="maintenance">Maintenace</option>
+          <option value="security" selected>Security</option>
+          <option value="marketing" selected>Marketing</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label for="email_id">Email ID</label>
+        <input type="text" name="email_id" id="email_id" required />
+      </div>
+      
+      <div class="input-row">
+        <label for="doj">Date of joining</label>
+        <input type="date" name="doj" id="doj" required />
+      </div>
+		*Please fill all the details before submitting
+            <button type="submit" class="btn cancel" onclick="closeForm()">Submit</button>
+<button type="reset" class="reset">clear</button>
+	</form>
+	</div >
+<div class="tableFixHead">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Employee ID</th>
+          <th>Department</th>
+          <th>Email ID</th>
+          <th>DOJ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+</div>
+    <script>
+      const formEl = document.querySelector("form");
+      const tbodyEl = document.querySelector("tbody");
+      const tableEl = document.querySelector("table");
+      function onAddWebsite(e) {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const employee_id = document.getElementById("employee_id").value;
+        const department = document.getElementById("department").value;
+        const email_id = document.getElementById("email_id").value;
+        const doj = document.getElementById("doj").value;
+        tbodyEl.innerHTML += `
+            <tr>
+                <td>${name}</td>
+                <td>${employee_id}</td>
+                <td>${department}</td>
+                <td>${email_id}</td>
+                <td>${doj}</td>
+                <td><button class="deleteBtn">&#10008</button></td>
+            </tr>
+        `;
+      }
+		
+	function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+      function onDeleteRow(e) {
+        if (!e.target.classList.contains("deleteBtn")) {
+          return;
+        }
+
+        const btn = e.target;
+        btn.closest("tr").remove();
+      }
+
+      formEl.addEventListener("submit", onAddWebsite);
+      tableEl.addEventListener("click", onDeleteRow);
+      
+
+    </script>
+    <button class="open-button" onclick="openForm()">New Employee</button>
+  </body>
+</html>
